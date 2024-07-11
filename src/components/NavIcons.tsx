@@ -47,26 +47,9 @@ const NavIcons = () => {
     getCart(wixClient);
   }, [wixClient, getCart]);
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (profileRef.current && !profileRef.current.contains(event.target)) {
-  //       setIsProfileOpen(false);
-  //     }
-  //     if (cartRef.current && !cartRef.current.contains(event.target)) {
-  //       setIsCartOpen(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
-
   return (
-    // MAIN WRAPPER-------------------------
     <div className="flex items-center gap-4 xl:gap-6 relative">
-     <Tooltip title={isLoggedIn ? "Perfil" : "Registrate o inicia sesión"} arrow>
+      <Tooltip title={isLoggedIn ? "Perfil" : "Registrate o inicia sesión"} arrow>
         <Image
           src="/profile-t.png"
           alt=""
@@ -81,18 +64,18 @@ const NavIcons = () => {
           ref={profileRef}
           className="absolute p-4 rounded-md top-12 left-1/2 transform -translate-x-1/2 text-center bg-white text-sm shadow-[0_3px_10px_rgb(0,0,0,0.2)] z-20 whitespace-nowrap"
         >
-          <Link href="/profile" className="px-4 py-2 hover:text-hovr hover:font-semibold">Perfil</Link>
-          <div className="mt-2 cursor-pointer px-4 py-2  hover:text-logout hover:font-semibold" onClick={handleLogout}>
+          <Link href="/profile" className="px-4 py-2 hover:text-hovr hover:font-semibold">
+            Perfil
+          </Link>
+          <div
+            className="mt-2 cursor-pointer px-4 py-2 hover:text-logout hover:font-semibold"
+            onClick={handleLogout}
+          >
             {isLoading ? "Logging out" : "Cerrar Sesión"}
           </div>
         </div>
       )}
 
-      {/* NOTIFICATION ICON PSEUDO COMPONENT------------------------- */}
-      {/* <Image src="/notification.png" alt="" width={22} height={22} className="cursor-pointer"/> */}
-      {/* NOTIFICATION ICON PSEUDO COMPONENT------------------------- */}
-
-      {/* CART ICON PSEUDO COMPONENT------------------------- */}
       <Tooltip title="Cesta" arrow>
         <div
           ref={cartRef}
@@ -106,9 +89,7 @@ const NavIcons = () => {
         </div>
       </Tooltip>
       {isCartOpen && <CartModal />}
-      {/* CART ICON PSEUDO COMPONENT------------------------- */}
     </div>
-    // MAIN WRAPPER-------------------------
   );
 };
 
