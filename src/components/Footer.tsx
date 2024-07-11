@@ -29,18 +29,18 @@ const Footer = () => {
           </Link>
 
           <div className="flex gap-6">
-            <Link href="https://www.facebook.com" target="_blank">
+            <a href="https://www.facebook.com" target="_blank">
                <FacebookIcon alt="Facebook" width={16} height={16}/>
               {/* <Image src="/facebook.png" alt="Facebook" width={16} height={16} /> */}
-            </Link>
-            <Link href="https://www.instagram.com" target="_blank">
+            </a>
+            <a href="https://www.instagram.com" target="_blank">
               <InstagramIcon alt="Instagram" width={16} height={16} />
               {/* <Image src="/instagram.png" alt="Instagram" width={16} height={16} /> */}
-            </Link>
-            <Link href="https://www.whatsapp.com" target="_blank">
+            </a>
+            <a href="https://www.whatsapp.com" target="_blank">
                <WhatsAppIcon alt="WhatsApp" width={16} height={16} />
               {/* <Image src="/youtube.png" alt="YouTube" width={16} height={16} /> */}
-            </Link>
+            </a>
           </div>
         </div>
 
@@ -133,3 +133,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
