@@ -6,7 +6,24 @@ import React, { useCallback, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoscroll from 'embla-carousel-auto-scroll';
 
-const CategoryList = ({ categories }) => {
+interface Category {
+  _id: string;
+  slug: string;
+  name: string;
+  media?: {
+    mainMedia?: {
+      image?: {
+        url: string;
+      };
+    };
+  };
+}
+
+interface CategoryListProps {
+  categories: Category[];
+}
+
+const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoscroll({
       speed: 2,
@@ -53,3 +70,4 @@ const CategoryList = ({ categories }) => {
 };
 
 export default CategoryList;
+
