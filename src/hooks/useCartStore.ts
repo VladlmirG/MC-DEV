@@ -17,14 +17,14 @@ type CartState = {
 };
 
 export const useCartStore = create<CartState>((set) => ({
-  cart: [],
+  cart: { lineItems: [], subtotal: { amount: 0 } }, // Initialize with default subtotal
   isLoading: true,
   counter: 0,
   getCart: async (wixClient) => {
     try {
       const cart = await wixClient.currentCart.getCurrentCart();
       set({
-        cart: cart || [],
+        cart: cart || { lineItems: [], subtotal: { amount: 0 } }, // Ensure default subtotal
         isLoading: false,
         counter: cart?.lineItems.length || 0,
       });
@@ -48,20 +48,18 @@ export const useCartStore = create<CartState>((set) => ({
     });
 
     set({
-      cart: response.cart,
-      counter: response.cart?.lineItems.length,
+      cart: response.cart || { lineItems: [], subtotal: { amount: 0 } }, // Ensure default subtotal
+      counter: response.cart?.lineItems.length || 0,
       isLoading: false,
     });
   },
   removeItem: async (wixClient, itemId) => {
     set((state) => ({ ...state, isLoading: true }));
-    const response = await wixClient.currentCart.removeLineItemsFromCurrentCart(
-      [itemId]
-    );
+    const response = await wixClient.currentCart.removeLineItemsFromCurrentCart([itemId]);
 
     set({
-      cart: response.cart,
-      counter: response.cart?.lineItems.length,
+      cart: response.cart || { lineItems: [], subtotal: { amount: 0 } }, // Ensure default subtotal
+      counter: response.cart?.lineItems.length || 0,
       isLoading: false,
     });
   },
