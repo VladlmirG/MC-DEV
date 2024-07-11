@@ -2,8 +2,16 @@ import { create } from "zustand";
 import { currentCart } from "@wix/ecom";
 import { WixClient } from "@/context/wixContext";
 
+// Extend the Cart type if necessary
+interface Cart extends currentCart.Cart {
+  subtotal: {
+    amount: number;
+    currency: string;
+  };
+}
+
 type CartState = {
-  cart: currentCart.Cart;
+  cart: Cart;
   isLoading: boolean;
   counter: number;
   getCart: (wixClient: WixClient) => void;
@@ -17,14 +25,21 @@ type CartState = {
 };
 
 export const useCartStore = create<CartState>((set) => ({
-  cart: { lineItems: [], subtotal: { amount: 0 } }, // Initialize with default subtotal
+  cart: {
+    lineItems: [],
+    subtotal: { amount: 0, currency: 'HNL' },
+    // Add other necessary default properties here
+  },
   isLoading: true,
   counter: 0,
   getCart: async (wixClient) => {
     try {
       const cart = await wixClient.currentCart.getCurrentCart();
       set({
-        cart: cart || { lineItems: [], subtotal: { amount: 0 } }, // Ensure default subtotal
+        cart: {
+          ...cart,
+          subtotal: cart?.subtotal || { amount: 0, currency: 'HNL' },
+        },
         isLoading: false,
         counter: cart?.lineItems.length || 0,
       });
@@ -48,18 +63,26 @@ export const useCartStore = create<CartState>((set) => ({
     });
 
     set({
-      cart: response.cart || { lineItems: [], subtotal: { amount: 0 } }, // Ensure default subtotal
-      counter: response.cart?.lineItems.length || 0,
+      cart: {
+        ...response.cart,
+        subtotal: response.cart?.subtotal || { amount: 0, currency: 'HNL' },
+      },
+      counter: response.cart?.lineItems.length,
       isLoading: false,
     });
   },
   removeItem: async (wixClient, itemId) => {
     set((state) => ({ ...state, isLoading: true }));
-    const response = await wixClient.currentCart.removeLineItemsFromCurrentCart([itemId]);
+    const response = await wixClient.currentCart.removeLineItemsFromCurrentCart(
+      [itemId]
+    );
 
     set({
-      cart: response.cart || { lineItems: [], subtotal: { amount: 0 } }, // Ensure default subtotal
-      counter: response.cart?.lineItems.length || 0,
+      cart: {
+        ...response.cart,
+        subtotal: response.cart?.subtotal || { amount: 0, currency: 'HNL' },
+      },
+      counter: response.cart?.lineItems.length,
       isLoading: false,
     });
   },
