@@ -15,7 +15,7 @@ export default async function HomePage() {
       slug: collection.slug || '',
       name: collection.name || '',
       media: collection.media?.mainMedia?.image?.url || 'cat.png',
-    })) as Category[];
+    })) as CategoryList[];
 
   return (
     <div className="">
