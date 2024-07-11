@@ -4,6 +4,7 @@ import Skeleton from "@/components/Skeleton";
 import Slider from "@/components/Slider";
 import { wixClientServer } from "@/lib/wixClientServer";
 import { Suspense } from "react";
+import { Category } from "@/lib/Category";
 
 export default async function HomePage() {
   const wixClient = await wixClientServer();
@@ -15,7 +16,7 @@ export default async function HomePage() {
       slug: collection.slug || '',
       name: collection.name || '',
       media: collection.media?.mainMedia?.image?.url || 'cat.png',
-    })) as CategoryList[];
+    })) as Category[];
 
   return (
     <div className="">
