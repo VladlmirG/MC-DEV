@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoscroll from 'embla-carousel-auto-scroll';
 
@@ -10,13 +10,7 @@ interface Category {
   _id: string;
   slug: string;
   name: string;
-  media?: {
-    mainMedia?: {
-      image?: {
-        url: string;
-      };
-    };
-  };
+  media?: string;
 }
 
 interface CategoryListProps {
@@ -51,7 +45,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
             <Link href={`/list?cat=${item.slug}`}>
               <div className="relative bg-slate-100 w-full h-96">
                 <Image
-                  src={item.media?.mainMedia?.image?.url || "cat.png"}
+                  src={item.media || ""}
                   alt=""
                   fill
                   sizes="20vw"
@@ -70,4 +64,8 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
 };
 
 export default CategoryList;
+
+
+
+
 
