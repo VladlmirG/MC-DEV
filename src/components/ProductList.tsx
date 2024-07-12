@@ -43,11 +43,11 @@ const ProductList = async ({
       productQuery = productQuery.lt("priceData.price", searchParams.max);
     }
 
-    // Verify the correct field name for size filtering in the Wix API
-    if (searchParams?.size) {
-      // Assuming "customFields" is the correct field for filtering by size
-      productQuery = productQuery.eq("productOptions.size", [searchParams.size]);
-    }
+    // // Verify the correct field name for size filtering in the Wix API
+    // if (searchParams?.size) {
+    //   // Assuming "customFields" is the correct field for filtering by size
+    //   productQuery = productQuery.eq("productOptions.size", [searchParams.size]);
+    // }
 
     productQuery = productQuery.limit(limit || PRODUCT_PER_PAGE);
 
