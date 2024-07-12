@@ -38,10 +38,10 @@ export const useCartStore = create<CartState>((set) => ({
       set({
         cart: {
           ...cart,
-          subtotal: cart.subtotal || { amount: 0, currency: 'HNL' },
+          subtotal: cart?.subtotal || { amount: 0, currency: 'HNL' },
         },
         isLoading: false,
-        counter: cart.lineItems.length || 0,
+        counter: cart?.lineItems.length || 0,
       });
     } catch (err) {
       set((prev) => ({ ...prev, isLoading: false }));
