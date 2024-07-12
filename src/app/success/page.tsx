@@ -1,6 +1,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import Confetti from "react-confetti";
 
 const SuccessPage = () => {
@@ -33,4 +33,10 @@ const SuccessPage = () => {
   );
 };
 
-export default SuccessPage;
+const SuspendedSuccessPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <SuccessPage />
+  </Suspense>
+);
+
+export default SuspendedSuccessPage;
