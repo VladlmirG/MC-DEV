@@ -34,19 +34,26 @@ export const useCartStore = create<CartState>((set) => ({
   counter: 0,
   getCart: async (wixClient) => {
     try {
-      const cart = await wixClient.currentCart.getCurrentCart() as Cart;
+      const cart = await wixClient.currentCart.getCurrentCart();
+      
+      if (!cart) {
+        throw new Error("Cart is undefined");
+      }
+  
       set({
         cart: {
           ...cart,
-          subtotal: cart?.subtotal || { amount: 0, currency: 'HNL' },
+          subtotal: cart.subtotal || { amount: 0, currency: 'HNL' },
         },
         isLoading: false,
-        counter: cart?.lineItems.length || 0,
+        counter: cart.lineItems.length || 0,
       });
     } catch (err) {
+      console.error("Error fetching cart:", err);
       set((prev) => ({ ...prev, isLoading: false }));
     }
   },
+  
   addItem: async (wixClient, productId, variantId, quantity) => {
     set((state) => ({ ...state, isLoading: true }));
     const response = await wixClient.currentCart.addToCurrentCart({
