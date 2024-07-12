@@ -32,32 +32,31 @@ export const useCartStore = create<CartState>((set) => ({
   },
   isLoading: true,
   counter: 0,
-getCart: async (wixClient) => {
-  try {
-    const cart = await wixClient.currentCart.getCurrentCart();
+  getCart: async (wixClient) => {
+    try {
+      const cart = await wixClient.currentCart.getCurrentCart();
 
-    if (!cart) {
-      throw new Error("Cart is undefined");
+      if (!cart) {
+        throw new Error("Cart is undefined");
+      }
+
+      // Type assertion to ensure TypeScript knows cart is of type Cart
+      const typedCart = cart as Cart;
+
+      set({
+        cart: {
+          ...typedCart,
+          subtotal: typedCart.subtotal || { amount: 0, currency: 'HNL' },
+          lineItems: typedCart.lineItems || [], // Ensure lineItems is always defined
+        },
+        isLoading: false,
+        counter: (typedCart.lineItems || []).length,
+      });
+    } catch (err) {
+      console.error("Error fetching cart:", err);
+      set((prev) => ({ ...prev, isLoading: false }));
     }
-
-    // Ensure lineItems is initialized to an empty array if undefined
-    const lineItems = cart.lineItems || [];
-
-    set({
-      cart: {
-        ...cart,
-        subtotal: cart.subtotal || { amount: 0, currency: 'HNL' },
-        lineItems: lineItems, // Ensure lineItems is always defined
-      },
-      isLoading: false,
-      counter: lineItems.length, // Use lineItems length directly
-    });
-  } catch (err) {
-    console.error("Error fetching cart:", err);
-    set((prev) => ({ ...prev, isLoading: false }));
-  }
-},
-  
+  },
   addItem: async (wixClient, productId, variantId, quantity) => {
     set((state) => ({ ...state, isLoading: true }));
     const response = await wixClient.currentCart.addToCurrentCart({
@@ -73,12 +72,16 @@ getCart: async (wixClient) => {
       ],
     });
 
+    // Type assertion for response.cart if necessary
+    const typedResponse = response.cart as Cart;
+
     set({
       cart: {
-        ...response.cart,
-        subtotal: response.cart?.subtotal || { amount: 0, currency: 'HNL' },
+        ...typedResponse,
+        subtotal: typedResponse.subtotal || { amount: 0, currency: 'HNL' },
+        lineItems: typedResponse.lineItems || [],
       },
-      counter: response.cart?.lineItems.length,
+      counter: (typedResponse.lineItems || []).length,
       isLoading: false,
     });
   },
@@ -88,12 +91,16 @@ getCart: async (wixClient) => {
       [itemId]
     );
 
+    // Type assertion for response.cart if necessary
+    const typedResponse = response.cart as Cart;
+
     set({
       cart: {
-        ...response.cart,
-        subtotal: response.cart?.subtotal || { amount: 0, currency: 'HNL' },
+        ...typedResponse,
+        subtotal: typedResponse.subtotal || { amount: 0, currency: 'HNL' },
+        lineItems: typedResponse.lineItems || [],
       },
-      counter: response.cart?.lineItems.length,
+      counter: (typedResponse.lineItems || []).length,
       isLoading: false,
     });
   },
