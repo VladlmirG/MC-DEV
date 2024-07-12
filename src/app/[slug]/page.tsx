@@ -7,8 +7,15 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import DOMPurify from "isomorphic-dompurify";
 
-const SinglePage = async ({ params }: { params: { slug: string } }) => {
-  const wixClient = await wixClientServer();
+const SinglePage = async ({ params }: { params: { slug: string } }) => { 
+  let wixClient = await wixClientServer();
+
+  if (!wixClient || !wixClient.products) {
+    // Handle case where wixClient or wixClient.products is not available
+    console.error('Wix client or products not available');
+    return;
+  }
+
 
   const products = await wixClient.products
     .queryProducts()
@@ -35,7 +42,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
         <h1 className="text-4xl font-medium">{product.name}</h1>
         <div
           className="text-gray-500"
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description || '') }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description|| '') }}
         />
         <div className="h-[2px] bg-gray-100" />
         {product.price?.price === product.price?.discountedPrice ? (
@@ -69,7 +76,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
           <div className="text-sm" key={section.title}>
             <h4 className="font-medium mb-4">{section.title}</h4>
             <div
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.description || '') }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.description|| '') }}
             />
           </div>
         ))}
