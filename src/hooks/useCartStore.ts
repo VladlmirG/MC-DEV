@@ -32,27 +32,31 @@ export const useCartStore = create<CartState>((set) => ({
   },
   isLoading: true,
   counter: 0,
-  getCart: async (wixClient) => {
-    try {
-      const cart = await wixClient.currentCart.getCurrentCart();
-      
-      if (!cart) {
-        throw new Error("Cart is undefined");
-      }
-  
-      set({
-        cart: {
-          ...cart,
-          subtotal: cart.subtotal || { amount: 0, currency: 'HNL' },
-        },
-        isLoading: false,
-        counter: cart.lineItems.length || 0,
-      });
-    } catch (err) {
-      console.error("Error fetching cart:", err);
-      set((prev) => ({ ...prev, isLoading: false }));
+getCart: async (wixClient) => {
+  try {
+    const cart = await wixClient.currentCart.getCurrentCart();
+
+    if (!cart) {
+      throw new Error("Cart is undefined");
     }
-  },
+
+    // Ensure lineItems is initialized to an empty array if undefined
+    const lineItems = cart.lineItems || [];
+
+    set({
+      cart: {
+        ...cart,
+        subtotal: cart.subtotal || { amount: 0, currency: 'HNL' },
+        lineItems: lineItems, // Ensure lineItems is always defined
+      },
+      isLoading: false,
+      counter: lineItems.length, // Use lineItems length directly
+    });
+  } catch (err) {
+    console.error("Error fetching cart:", err);
+    set((prev) => ({ ...prev, isLoading: false }));
+  }
+},
   
   addItem: async (wixClient, productId, variantId, quantity) => {
     set((state) => ({ ...state, isLoading: true }));
