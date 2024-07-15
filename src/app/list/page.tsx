@@ -17,8 +17,8 @@ const ListPage = async ({ searchParams }: { searchParams: any }) => {
       <div className="hidden bg-gradient-to-r from-gray-50 to-blue-50 rounded-md px-4 sm:flex justify-between h-64">
         <div className="w-2/3 flex flex-col items-center justify-center gap-8">
           <h1 className="text-4xl font-semibold leading-[48px] text-gray-700">
-           Texto aleatorio de publicidad
-            <br /> texto siguiente
+           Tu carrito espera por tus prendas favoritas
+            <br /> ¡Empieza tu shopping ahora!
           </h1>
         </div>
         <div className="relative w-1/3">
@@ -28,7 +28,7 @@ const ListPage = async ({ searchParams }: { searchParams: any }) => {
       {/* FILTER */}
       <Filter />
       {/* PRODUCTS */}
-      <h1 className="mt-12 text-xl font-semibold">{cat?.collection?.name} Para ti!</h1>
+      <h1 className="mt-12 text-xl font-semibold">{cat?.collection?.name} </h1>
       <Suspense fallback={<Skeleton />}>
         <ProductList
           categoryId={
