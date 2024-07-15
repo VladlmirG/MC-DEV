@@ -57,18 +57,9 @@ const LoginPage = () => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-    setMessage("");
 
     try {
       let response;
-      const timeoutDuration = 3 * 60 * 1000; // Increase timeout to 3 minutes (3 * 60 * 1000 milliseconds)
-
-      // Start the timeout after initiating the OAuth flow
-      let timeoutId = setTimeout(() => {
-        console.error('OAuth flow timed out');
-        setError("OAuth flow timed out");
-        setIsLoading(false); // Make sure loading indicator stops
-      }, timeoutDuration);
 
       switch (mode) {
         case MODE.LOGIN:
@@ -100,12 +91,9 @@ const LoginPage = () => {
           break;
       }
 
-      // Clear the timeout after completing the OAuth flow
-      clearTimeout(timeoutId);
-
       switch (response?.loginState) {
         case LoginState.SUCCESS:
-          setMessage("¡Inicio de sesión exitoso! Usted está siendo redirigido a la tienda.");
+          setMessage("¡inicio de sesión exitoso! Usted está siendo redirigido a la tienda.");
           const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
             response.data.sessionToken!
           );
@@ -129,19 +117,15 @@ const LoginPage = () => {
           } else {
             setError("¡Algo salió mal!");
           }
-          break;
         case LoginState.EMAIL_VERIFICATION_REQUIRED:
           setMode(MODE.EMAIL_VERIFICATION);
-          break;
         case LoginState.OWNER_APPROVAL_REQUIRED:
           setMessage("Su cuenta está pendiente de aprobación");
-          break;
         default:
-          setError("¡Algo salió mal!");
           break;
       }
     } catch (err) {
-      console.error(err);
+      console.log(err);
       setError("¡Algo salió mal!");
     } finally {
       setIsLoading(false);
@@ -243,6 +227,8 @@ const LoginPage = () => {
     </div>
   );
 };
+
+export default LoginPage;
 
 export default LoginPage;
 
