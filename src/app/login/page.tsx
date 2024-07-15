@@ -93,7 +93,7 @@ const LoginPage = () => {
 
       switch (response?.loginState) {
         case LoginState.SUCCESS:
-          setMessage("¡Inicio de sesión exitoso! Usted está siendo redirigido a la tienda.");
+          setMessage("¡inicio de sesión exitoso! Usted está siendo redirigido a la tienda.");
           const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
             response.data.sessionToken!
           );
@@ -111,24 +111,21 @@ const LoginPage = () => {
           ) {
             setError("¡Correo electrónico o contraseña no válidos!");
           } else if (response.errorCode === "emailAlreadyExists") {
-            setError("¡Esta cuenta ya existe!");
+            setError("¡Esta cuenta ya existe");
           } else if (response.errorCode === "resetPassword") {
             setError("¡Necesitas restablecer tu contraseña!");
           } else {
             setError("¡Algo salió mal!");
           }
-          break;
         case LoginState.EMAIL_VERIFICATION_REQUIRED:
           setMode(MODE.EMAIL_VERIFICATION);
-          break;
         case LoginState.OWNER_APPROVAL_REQUIRED:
           setMessage("Su cuenta está pendiente de aprobación");
-          break;
         default:
           break;
       }
     } catch (err) {
-      console.error("Login Error:", err);
+      console.log(err);
       setError("¡Algo salió mal!");
     } finally {
       setIsLoading(false);
@@ -206,7 +203,7 @@ const LoginPage = () => {
             className="text-sm underline cursor-pointer"
             onClick={() => setMode(MODE.REGISTER)}
           >
-            ¿No tiene una cuenta?
+            {"No"} tiene una cuenta?
           </div>
         )}
         {mode === MODE.REGISTER && (
@@ -214,7 +211,7 @@ const LoginPage = () => {
             className="text-sm underline cursor-pointer"
             onClick={() => setMode(MODE.LOGIN)}
           >
-            ¿Ya tiene una cuenta?
+           tiene una cuenta?
           </div>
         )}
         {mode === MODE.RESET_PASSWORD && (
