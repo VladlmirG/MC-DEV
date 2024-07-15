@@ -60,6 +60,7 @@ const LoginPage = () => {
 
     try {
       let response;
+      const timeoutDuration = 3 * 60 * 1000; // Increase timeout to 3 minutes (3 * 60 * 1000 milliseconds)
 
       switch (mode) {
         case MODE.LOGIN:
@@ -91,6 +92,12 @@ const LoginPage = () => {
           break;
       }
 
+      // Start the timeout after initiating the OAuth flow
+      let timeoutId = setTimeout(() => {
+        console.error('OAuth flow timed out');
+        setError("OAuth flow timed out");
+      }, timeoutDuration);
+
       switch (response?.loginState) {
         case LoginState.SUCCESS:
           setMessage("¡inicio de sesión exitoso! Usted está siendo redirigido a la tienda.");
@@ -117,15 +124,22 @@ const LoginPage = () => {
           } else {
             setError("¡Algo salió mal!");
           }
+          break;
         case LoginState.EMAIL_VERIFICATION_REQUIRED:
           setMode(MODE.EMAIL_VERIFICATION);
+          break;
         case LoginState.OWNER_APPROVAL_REQUIRED:
           setMessage("Su cuenta está pendiente de aprobación");
+          break;
         default:
+          setError("¡Algo salió mal!");
           break;
       }
+
+      // Clear the timeout after completing the OAuth flow
+      clearTimeout(timeoutId);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setError("¡Algo salió mal!");
     } finally {
       setIsLoading(false);
@@ -229,4 +243,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
