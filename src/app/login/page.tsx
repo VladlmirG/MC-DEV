@@ -57,10 +57,18 @@ const LoginPage = () => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
+    setMessage("");
 
     try {
       let response;
       const timeoutDuration = 3 * 60 * 1000; // Increase timeout to 3 minutes (3 * 60 * 1000 milliseconds)
+
+      // Start the timeout after initiating the OAuth flow
+      let timeoutId = setTimeout(() => {
+        console.error('OAuth flow timed out');
+        setError("OAuth flow timed out");
+        setIsLoading(false); // Make sure loading indicator stops
+      }, timeoutDuration);
 
       switch (mode) {
         case MODE.LOGIN:
@@ -92,15 +100,12 @@ const LoginPage = () => {
           break;
       }
 
-      // Start the timeout after initiating the OAuth flow
-      let timeoutId = setTimeout(() => {
-        console.error('OAuth flow timed out');
-        setError("OAuth flow timed out");
-      }, timeoutDuration);
+      // Clear the timeout after completing the OAuth flow
+      clearTimeout(timeoutId);
 
       switch (response?.loginState) {
         case LoginState.SUCCESS:
-          setMessage("¡inicio de sesión exitoso! Usted está siendo redirigido a la tienda.");
+          setMessage("¡Inicio de sesión exitoso! Usted está siendo redirigido a la tienda.");
           const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
             response.data.sessionToken!
           );
@@ -135,9 +140,6 @@ const LoginPage = () => {
           setError("¡Algo salió mal!");
           break;
       }
-
-      // Clear the timeout after completing the OAuth flow
-      clearTimeout(timeoutId);
     } catch (err) {
       console.error(err);
       setError("¡Algo salió mal!");
@@ -243,3 +245,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
