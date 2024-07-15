@@ -79,7 +79,7 @@ const Filter = () => {
           </li>
 
           <li>
-            <Link href="/list?cat=recién-llegado" className="text-xs text-gray-600 hover:text-gray-900  align-middle"><AdjustIcon sx={{ fontSize: 'inherit', marginRight: '3px' }}/>Recién Llegado</Link>
+            <Link href="/list?cat=nueva-colección" className="text-xs text-gray-600 hover:text-gray-900  align-middle"><AdjustIcon sx={{ fontSize: 'inherit', marginRight: '3px' }}/>Nueva Colección</Link>
           </li>
 
           <li>

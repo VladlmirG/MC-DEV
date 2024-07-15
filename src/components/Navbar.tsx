@@ -43,7 +43,7 @@ const Navbar = () => {
                 <Link href="/list?cat=best-sellers" className="px-4 py-2 hover:text-hovr hover:font-semibold">Best Sellers</Link>
                 <Link href="/list?cat=dresses" className="px-4 py-2 hover:text-hovr hover:font-semibold">Dresses</Link>
                 <Link href="/list?cat=faldas-y-pantalones" className="px-4 py-2 hover:text-hovr hover:font-semibold">Faldas y Pantalones</Link>
-                <Link href="/list?cat=recién-llegado" className="px-4 py-2 hover:text-hovr hover:font-semibold">Recién Llegado</Link>
+                <Link href="/list?cat=nueva-colección" className="px-4 py-2 hover:text-hovr hover:font-semibold">Nueva Colección</Link>
                 <Link href="/list?cat=sets" className="px-4 py-2 hover:text-hovr hover:font-semibold">Sets</Link>
                 <Link href="/list?cat=shorts" className="px-4 py-2 hover:text-hovr hover:font-semibold">Shorts</Link>
                 <Link href="/list?cat=tops" className="px-4 py-2 hover:text-hovr hover:font-semibold">Tops</Link>
