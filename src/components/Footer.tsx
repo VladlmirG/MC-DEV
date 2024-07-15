@@ -108,7 +108,7 @@ const Footer = () => {
       {/* BOTTOM */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 mt-16">
         <div className="flex flex-col justify-between gap-2">
-          <span>© 2024 MC CLOTHS</span>
+          <span>© 2024 MC CLOTHES</span>
           <span className="font-extralight text-xs text-gray">Site developed by
           <Link href="https://vladimirgotay.com/" target="_blank" className="hover:text-black"> Vladimir G</Link>
           </span>
