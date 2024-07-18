@@ -38,6 +38,9 @@ const Footer = () => {
   <a href="https://www.whatsapp.com" target="_blank">
     <WhatsAppIcon style={{ width: 16, height: 16 }} />
   </a>
+  <a href="https://www.tiktok.com" target="_blank">
+    <img src='/tiktok.svg' style={{ width: 16, height: 16 }} />
+  </a>
           </div>
         </div>
 
@@ -130,4 +133,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
